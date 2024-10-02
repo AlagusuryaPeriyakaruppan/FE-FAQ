@@ -75,5 +75,23 @@ function flatten2WithDepth(depth) {
   return output;
 }
 
-Array.prototype.flat = flatten2WithDepth;
+function flattenArrayIteartiveWithDepth(depth) {
+  const output = [];
+  let stack = this.map((item) => ({ element: item, depth }));
+
+  while (stack.length > 0) {
+    const { element, depth } = stack.pop();
+    if (Array.isArray(element) && depth > 0) {
+      stack.push(
+        ...element.map((item) => ({ element: item, depth: depth - 1 }))
+      );
+    } else {
+      output.push(element);
+    }
+  }
+
+  return output;
+}
+
+Array.prototype.flat = flattenArrayIteartiveWithDepth;
 console.log(input.flat(1));
