@@ -11,7 +11,7 @@
  * rather than being dynamically set at the time of invocation.
  */
 
-const input = [1, 2, [3, 4, 7, [6, 7, 8], 8], 9];
+const input = [1, 2, [3, 4, [10, 56], 5], [6, 7], 8];
 
 // ITERATIVE METHOD1:
 //Feasible only for 1st level nesting
@@ -56,6 +56,24 @@ function flatten2() {
   return output;
 }
 
-Array.prototype.flat = flattenArray1;
+function flatten2WithDepth(depth) {
+  const output = [];
+  function flattenArray(arr, depth) {
+    // [1,[3, 4, [10, 56], 5], [6, 7]]
+    console.log("depth", arr, depth);
+    for (let i = 0; i < arr.length; i++) {
+      if (Array.isArray(arr[i]) && depth > 0) {
+        //Important:We are not changing the value of depth but we are passing reduced depth in recursion
+        flattenArray(arr[i], depth - 1);
+      } else {
+        output.push(arr[i]);
+      }
+    }
+  }
 
-console.log("FINAL RESULT:", input.flat());
+  flattenArray(this, depth);
+  return output;
+}
+
+Array.prototype.flat = flatten2WithDepth;
+console.log(input.flat(1));
