@@ -11,12 +11,34 @@
  * rather than being dynamically set at the time of invocation.
  */
 
-const input = [1, 2, [3, 4, [5, 6], 7, 8], 9];
+const input = [1, 2, [3, 4, 7, 8], 9];
 
 // ITERATIVE METHOD1:
-function flatten() {}
+//Feasible only for 1st level nesting
+
+function flattenArray() {
+  let stack = [...this];
+  const output = [];
+  while (stack.length) {
+    const lastElement = stack.pop();
+    if (Array.isArray(lastElement)) {
+      output.push(...lastElement);
+    } else {
+      output.push(lastElement);
+    }
+  }
+  return output.reverse();
+}
 
 //ITERATIVE METHOD2:
+function flatten1() {
+  const output = [];
+
+  function flattenArray(arr) {}
+
+  flattenArray(this);
+  return output.reverse();
+}
 
 //RECURSIVE METHOD1:
 
@@ -36,6 +58,6 @@ function flatten2() {
   return output;
 }
 
-Array.prototype.flat = flatten;
+Array.prototype.flat = flattenArray;
 
 console.log("FINAL RESULT:", input.flat());
